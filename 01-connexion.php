@@ -17,7 +17,9 @@ $connect2 = $connect;
 
 // on se rend compte que ce ne sont que des liens relatifs vers la même connexion
 var_dump($connect,$connect2);
+echo "<hr>";
 
+// Voici une réelle nouvelle connexion (chiffre 2 pour le var_dump())
 $connect3 = new PDO("mysql:host=localhost;
                           port=3307;
                           dbname=mvcprojets;
@@ -27,6 +29,11 @@ $connect3 = new PDO("mysql:host=localhost;
 
 
 var_dump($connect,$connect2,$connect3);
+echo "<hr>";
 
+// fermeture de connexion (non obligatoire en MySQL ou MariaDB - portabilité du code)
+$connect3 = null;
+
+var_dump($connect,$connect2,$connect3);
 
 //print_r($connect);
