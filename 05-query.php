@@ -52,12 +52,26 @@ var_dump($getAllCategory);
     <h3>Avec find</h3>
     <p>Utilisation de $db_stmt->find() lorsqu'on a un ou 0 résultat possible</p>
     <p>
+    <code>
+    <pre>$requestOneUserByUsername = $db->query("SELECT `id`, `username`,`usermail`,`userscreen` 
+    FROM `user`
+    WHERE `username` = 'andrepalmisano'");
+var_dump($requestOneUserByUsername);</pre></code>
     <?php
     $requestOneUserByUsername = $db->query("SELECT `id`, `username`,`usermail`,`userscreen` 
     FROM `user`
     WHERE `username` = 'andrepalmisano'");
     var_dump($requestOneUserByUsername);
     ?>
+    <code>
+    <pre>$getOneUserByUsername = $requestOneUserByUsername->fetch(PDO::FETCH_ASSOC);
+    var_dump($getOneUserByUsername);</pre></code>
+    <?php
+    // on va transformer le résultat avec la méthode publique (fonction) ->fetch, avec la constante PDO::FETCH_ASSOC nous demandons de transformer les données en 1 tableau associatif
+    $getOneUserByUsername = $requestOneUserByUsername->fetch(PDO::FETCH_ASSOC);
+    var_dump($getOneUserByUsername);
+    ?>
     </p>
+    <h4>le fetch PDO, sans résultats, renvoie false (null avec mysqli_fetch_assoc)</h4>
 </body>
 </html>
