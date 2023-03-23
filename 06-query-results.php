@@ -23,6 +23,8 @@ require_once "04-good-connection.php";
     while($item = $requestAllCategory->fetch(PDO::FETCH_ASSOC)){
         echo "<b>ID:</b> $item[id] - <b>Title: {$item['title']}</b> - <b>Content</b> {$item['content']}";
     }
+    $requestAllCategory->closeCursor(); // on ferme le curseur des résultats, inutile pour
+mysql mais nécessaire pour la portabilité du code
     </pre></code>
 
     <?php
@@ -31,6 +33,7 @@ require_once "04-good-connection.php";
     while($item = $requestAllCategory->fetch(PDO::FETCH_ASSOC)){
         echo "<p><b>ID:</b> $item[id] - <b>Title: {$item['title']}</b> - <b>Content</b> {$item['content']} </p>";
     }
+    $requestAllCategory->closeCursor(); // on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
     ?>
 
 <h2>Exemple de foreach sur plusieurs résultats possibles</h2>
@@ -42,6 +45,9 @@ require_once "04-good-connection.php";
 
     $getAllCategory = $requestAllCategory->fetchAll(PDO::FETCH_OBJ);
 
+    $requestAllCategory->closeCursor(); // on ferme le curseur des résultats, inutile pour
+mysql mais nécessaire pour la portabilité du code
+
     foreach($getAllCategory AS $item){
         echo "<b>ID:</b> $item->id - <b>Title: $item->title</b> - <b>Content</b> $item->content";
     }
@@ -51,6 +57,8 @@ require_once "04-good-connection.php";
     $requestAllCategory = $db->query("SELECT * FROM `category` ORDER BY `title` ASC;");
 
     $getAllCategory = $requestAllCategory->fetchAll(PDO::FETCH_OBJ);
+
+    $requestAllCategory->closeCursor(); // on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
 
     foreach($getAllCategory AS $item){
         echo "<p><b>ID:</b> $item->id - <b>Title: $item->title</b> - <b>Content</b> $item->content </p>";
@@ -88,6 +96,8 @@ if ($requestOneUserByUsername->rowCount()===1) {
 
     echo "Pas d'utilisateur ayant ce username";
 }
+
+$requestOneUserByUsername->closeCursor(); // on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
 </pre></code>
 <h4>Avec résultat</h4>
     <?php
@@ -101,6 +111,8 @@ if ($requestOneUserByUsername->rowCount()===1) {
     echo "<p>Pas d'utilisateur ayant ce username</p>";
 }
 
+// on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
+$requestOneUserByUsername->closeCursor(); 
     ?>
     </p>
     <h4>Sans Résultat</h4>
@@ -119,9 +131,12 @@ if ($requestOneUserByUsername->rowCount()===1) {
         echo "<b>ID:</b> $getOneUserByUsername[id] - <b>Username: $getOneUserByUsername[username]</b> - <b>Usermail:</b> {$getOneUserByUsername['usermail']} - <b>Userscreen:</b> {$getOneUserByUsername['userscreen']}";
 
     }else{
-        
+
         echo "Pas d'utilisateur ayant ce username";
     }
+
+    // on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
+    $requestOneUserByUsername->closeCursor(); 
     </pre>
     </code>
     <?php
@@ -137,6 +152,8 @@ if ($requestOneUserByUsername->rowCount()===1) {
     }else{
         echo "<p>Pas d'utilisateur ayant ce username</p>";
     }
+    // on ferme le curseur des résultats, inutile pour mysql mais nécessaire pour la portabilité du code
+    $requestOneUserByUsername->closeCursor(); 
     ?>
 </body>
 </html>
