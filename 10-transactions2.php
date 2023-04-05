@@ -54,7 +54,7 @@ plus simple dans vos scripts.
     $nbRubriques = $query->rowCount();
 
     // 1
-    $sql1 = "INSERT INTO post (title,content,user_id) VALUES (?,?,?)";
+    $sql1 = "INSERT INTO post (title,content,visible,user_id) VALUES (?,?,1,?)";
 
     $title = ucfirst(randomCaracteres(20,50));
     $content = ucwords(randomCaracteres(200,500));
@@ -77,11 +77,17 @@ plus simple dans vos scripts.
 if(!empty($nbHasardRubriques)) {
     // préparation de la requête
     $requeteRubrique = "INSERT INTO category_has_post (category_id,post_id) VALUES ";
+    // duplication du tableau de rubriques pour ne pas y toucher dans la boucle
+    $tableauRubriques = $rubriques;
+
     // boucle sur numérique
     for($i=0;$i<$nbHasardRubriques;$i++){
-        $tableauRubriques = $rubriques;
         // un rubrique au hasard
-        $idRubrique = $rubriques[array_rand($tableauRubriques)]['id'];
+        $RandomKey = array_rand($tableauRubriques);
+        // l'id de la rubrique au hasard
+        $idRubrique = $rubriques[$RandomKey]['id'];
+        // supprimer l'id du tableau (pour éviter l'erreur de DUPLICATE ENTRY en SQL)
+        unset($tableauRubriques[$RandomKey]);
         $requeteRubrique .= "($idRubrique,$dernierID),";
     }
     // on retire la dernière virgule de la requête
@@ -96,6 +102,33 @@ if(!empty($nbHasardRubriques)) {
     $idUser = mt_rand(1,4);
 
     $prepare1->execute();
+    // on récupère l'id de la prepare1 (ligne 70)
+    $dernierID = $db->lastInsertId();
+
+    // pour les rubriques
+    $nbHasardRubriques = mt_rand(0,$nbRubriques);
+  // si on a des rubriques  
+if(!empty($nbHasardRubriques)) {
+    // préparation de la requête
+    $requeteRubrique = "INSERT INTO category_has_post (category_id,post_id) VALUES ";
+    // duplication du tableau de rubriques pour ne pas y toucher dans la boucle
+    $tableauRubriques = $rubriques;
+
+    // boucle sur numérique
+    for($i=0;$i<$nbHasardRubriques;$i++){
+        // un rubrique au hasard
+        $RandomKey = array_rand($tableauRubriques);
+        // l'id de la rubrique au hasard
+        $idRubrique = $rubriques[$RandomKey]['id'];
+        // supprimer l'id du tableau (pour éviter l'erreur de DUPLICATE ENTRY en SQL)
+        unset($tableauRubriques[$RandomKey]);
+        $requeteRubrique .= "($idRubrique,$dernierID),";
+    }
+    // on retire la dernière virgule de la requête
+    $requeteRubrique = substr($requeteRubrique,0,-1);
+
+    $db->exec($requeteRubrique);
+}
 
     //3
     $title = ucfirst(randomCaracteres(20,50));
@@ -103,6 +136,33 @@ if(!empty($nbHasardRubriques)) {
     $idUser = mt_rand(1,4);
 
     $prepare1->execute();
+    // on récupère l'id de la prepare1 (ligne 70)
+    $dernierID = $db->lastInsertId();
+
+    // pour les rubriques
+    $nbHasardRubriques = mt_rand(0,$nbRubriques);
+  // si on a des rubriques  
+if(!empty($nbHasardRubriques)) {
+    // préparation de la requête
+    $requeteRubrique = "INSERT INTO category_has_post (category_id,post_id) VALUES ";
+    // duplication du tableau de rubriques pour ne pas y toucher dans la boucle
+    $tableauRubriques = $rubriques;
+
+    // boucle sur numérique
+    for($i=0;$i<$nbHasardRubriques;$i++){
+        // un rubrique au hasard
+        $RandomKey = array_rand($tableauRubriques);
+        // l'id de la rubrique au hasard
+        $idRubrique = $rubriques[$RandomKey]['id'];
+        // supprimer l'id du tableau (pour éviter l'erreur de DUPLICATE ENTRY en SQL)
+        unset($tableauRubriques[$RandomKey]);
+        $requeteRubrique .= "($idRubrique,$dernierID),";
+    }
+    // on retire la dernière virgule de la requête
+    $requeteRubrique = substr($requeteRubrique,0,-1);
+
+    $db->exec($requeteRubrique);
+}
 
     try{
         $db->commit();
